@@ -1,0 +1,3 @@
+fieldset[disabled] * {
+  cursor: not-allowed !important;
+}
