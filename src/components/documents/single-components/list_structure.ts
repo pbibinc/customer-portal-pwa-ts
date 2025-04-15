@@ -1,7 +1,7 @@
 const list_structure = [
   {
     category: "Policy List",
-    icon: "bi bi-list",
+    icon: "bi bi-file-earmark-check",
     description: "List of policies.",
     items: [
       { name: "Header Variations", href: "/header-menu" },

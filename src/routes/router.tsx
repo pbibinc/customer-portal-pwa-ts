@@ -13,6 +13,8 @@ import ErrorPage from "../components/error-page";
 import SettingsIndex from "../components/settings";
 import IframeWrapper from "../components/iframe-wrapper";
 import CertificateListIndex from "../components/certificate-history/single-components/CertificateList";
+import CertificateHistoryIndex from "../components/certificate-history";
+import ChangePasswordIndex from "../components/change-password";
 
 const routes = createBrowserRouter([
   {
@@ -52,8 +54,16 @@ const routes = createBrowserRouter([
         element: <CertificateListIndex />,
       },
       {
+        path: "/certificate-history",
+        element: <CertificateHistoryIndex />,
+      },
+      {
         path: "/settings",
         element: <SettingsIndex />,
+      },
+      {
+        path: "/change-password",
+        element: <ChangePasswordIndex />,
       },
     ],
   },

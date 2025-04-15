@@ -16,7 +16,33 @@ export interface LeadCompanyInfoProps {
   pivot: Pivot;
   general_information: GeneralInformation;
   quote_lead: QuoteLead;
-  certificate: unknown[];
+  certificate?: Certificate[];
+}
+
+export interface Certificate {
+  id: number;
+  lead_id: number;
+  media_id?: number;
+  status: string;
+  cert_holder: string;
+  approved_by: number | null;
+  email: string;
+  phone_number: string;
+  requested_date: string;
+  created_at: string;
+  updated_at: string;
+  media?: CertMedia;
+}
+
+export interface CertMedia {
+  id: number;
+  basename: string;
+  filename: string;
+  filepath: string;
+  type: string;
+  size: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ActivePolicy {

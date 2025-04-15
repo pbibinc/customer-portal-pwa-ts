@@ -34,7 +34,6 @@ const RequestCertificateForm: React.FC = () => {
     watch,
     reset,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<CertificateFormProps>({
     defaultValues: {
@@ -61,14 +60,14 @@ const RequestCertificateForm: React.FC = () => {
   });
 
   const { selectedCompany } = useSelectedCompanyStore();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const currentCompanyState = selectedCompany?.state_abbr;
-  console.log("Current Company State: ", currentCompanyState);
   const projectDescriptionValue = watch("projectDescription");
   const isFieldsDisabled = !projectDescriptionValue;
 
-  const toggleProjLocState = () => {
-    if (getValues("projLocationState") == String(currentCompanyState)) {
+  const toggleProjLocState = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedState = e.target.value;
+    if (selectedState === currentCompanyState) {
       setValue("projectDescription", "default");
       setValue(
         "descriptionOperation",
@@ -80,20 +79,20 @@ const RequestCertificateForm: React.FC = () => {
     }
   };
 
-  const toggleProjDesc = () => {
-    if (projectDescriptionValue === "default") {
-      setValue(
-        "descriptionOperation",
-        "All locations as required by written contract."
-      );
-    } else if (projectDescriptionValue === "manual") {
-      setValue("descriptionOperation", "As required by written contract.");
-    }
-  };
-
   useEffect(() => {
+    const toggleProjDesc = () => {
+      if (projectDescriptionValue === "default") {
+        setValue(
+          "descriptionOperation",
+          "All locations as required by written contract."
+        );
+      } else if (projectDescriptionValue === "manual") {
+        setValue("descriptionOperation", "As required by written contract.");
+      }
+    };
+
     toggleProjDesc();
-  }, [projectDescriptionValue]);
+  }, [setValue, projectDescriptionValue]);
 
   const [submitStatus, setSubmitStatus] = useState<{
     message: string;
@@ -160,11 +159,9 @@ const RequestCertificateForm: React.FC = () => {
           <h6>Certificate Form</h6>
         </div>
       </div>
-
       <div className="container">
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-            {/* Ask first where state to request certificate then we will decide what project description to use */}
             <div className="form-group">
               <label className="form-label" htmlFor="state">
                 Project location state
@@ -211,7 +208,7 @@ const RequestCertificateForm: React.FC = () => {
                     required: "Project description is required",
                   })}
                 >
-                  <option>-- Select Project Description --</option>
+                  <option value="">-- Select Project Description --</option>
                   <option value="default">
                     (Default) All locations as required by written contract.
                   </option>

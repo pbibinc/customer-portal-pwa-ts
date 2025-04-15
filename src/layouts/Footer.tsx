@@ -2,7 +2,13 @@ import { Link } from "react-router-dom";
 
 const nav_data = [
   { id: 1, icon: "house", title: "Home", link: "home" },
-  { id: 2, icon: "folder2-open", title: "Documents", link: "documents" },
+  {
+    id: 1,
+    icon: "clock-history",
+    title: "Certs History",
+    link: "certificate-history",
+  },
+  // { id: 2, icon: "folder2-open", title: "Documents", link: "documents" },
   { id: 3, icon: "gear", title: "Settings", link: "settings" },
 ];
 

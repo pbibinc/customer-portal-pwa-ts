@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         <div className="container demo-container direction-rtl h-100 d-flex align-items-center justify-content-center">
           <p className="mb-0">
             <span id="copyrightYear"></span> Copyright{" "}
-            {new Date().getFullYear()} Made with ❤️ by IT
+            {new Date().getFullYear()} Made with ❤️ by IT Team
           </p>
         </div>
       </div>

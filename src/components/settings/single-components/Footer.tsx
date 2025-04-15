@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useDarkMode } from "../../hooks/useDarkMode";
-import Header from "./Header";
+import { useDarkMode } from "../../../hooks/useDarkMode";
+// import Header from "./Header";
 
 const Footer: React.FC = () => {
   const { theme, handleDarkModeToggle } = useDarkMode();

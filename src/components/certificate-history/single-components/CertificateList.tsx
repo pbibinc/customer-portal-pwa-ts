@@ -1,199 +1,183 @@
-import React, { useState } from "react";
-
-interface DataRow {
-  name: string;
-  position: string;
-  salary: string;
-}
+import React, { useState, useMemo } from "react";
+import { useLeadStore } from "../../../stores/LeadStore";
 
 const CertificateList: React.FC = () => {
-  const [data, setData] = useState<DataRow[]>([
-    { name: "Tiger Nixon", position: "System Architect", salary: "$320,800" },
-    { name: "Garrett Winters", position: "Accountant", salary: "$170,750" },
-    {
-      name: "Ashton Cox",
-      position: "Junior Technical Author",
-      salary: "$86,000",
-    },
-    {
-      name: "Cedric Kelly",
-      position: "Senior Javascript Developer",
-      salary: "$433,060",
-    },
-    { name: "Airi Satou", position: "Accountant", salary: "$162,700" },
-    {
-      name: "Brielle Williamson",
-      position: "Integration Specialist",
-      salary: "$372,000",
-    },
-    {
-      name: "Herrod Chandler",
-      position: "Sales Assistant",
-      salary: "$137,500",
-    },
-    {
-      name: "Rhona Davidson",
-      position: "Integration Specialist",
-      salary: "$327,900",
-    },
-    {
-      name: "Colleen Hurst",
-      position: "Javascript Developer",
-      salary: "$205,500",
-    },
-    { name: "Sonya Frost", position: "Software Engineer", salary: "$103,600" },
-    {
-      name: "Aaonya Frost 2",
-      position: "Software Engineer",
-      salary: "$34,600",
-    },
-  ]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const { leads } = useLeadStore();
 
-  const sortData = (key: keyof DataRow) => {
-    const sortedData = [...data].sort((a, b) => {
-      if (key === "salary") {
-        return (
-          parseFloat(a[key].replace(/\$|,/g, "")) -
-          parseFloat(b[key].replace(/\$|,/g, ""))
-        );
-      }
-      return a[key].localeCompare(b[key]);
-    });
-    setData(sortedData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+
+  // Flatten all certificates from leads
+  const allCertificates = useMemo(() => {
+    return leads.flatMap(
+      (lead) =>
+        lead.certificate?.map((cert) => ({
+          ...cert,
+          leadId: lead.id,
+        })) || []
+    );
+  }, [leads]);
+
+  const totalPages = Math.ceil(allCertificates.length / perPage);
+
+  const paginatedCertificates = useMemo(() => {
+    const start = (currentPage - 1) * perPage;
+    return allCertificates.slice(start, start + perPage);
+  }, [allCertificates, currentPage, perPage]);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-  };
-
-  const filteredData = data.filter(
-    (row) =>
-      row.name.toLowerCase().includes(searchQuery) ||
-      row.position.toLowerCase().includes(searchQuery) ||
-      row.salary.toLowerCase().includes(searchQuery)
-  );
 
   return (
-    <>
-      <div className="page-content-wrapper py-3 rk_table_2 rk_table">
-        <div className="container">
-          <div className="card">
-            <div className="card-body">
-              <div className="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                <div className="dataTable-top d-flex justify-content-between">
-                  <div className="dataTable-dropdown">
-                    <label>
-                      <select className="dataTable-selector">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
-                      </select>
-                    </label>
-                  </div>
-                  <div className="dataTable-search">
-                    <input
-                      className="dataTable-input"
-                      placeholder="Search"
-                      type="text"
-                      value={searchQuery}
-                      onChange={handleSearch}
-                    />
-                  </div>
-                </div>
-                <div className="dataTable-container">
-                  <table className="w-100 dataTable-table" id="dataTable">
-                    <thead>
-                      <tr>
-                        <th
-                          data-sortable=""
-                          style={{ width: "32.1221%", padding: "8px" }}
-                          onClick={() => sortData("name")}
-                        >
-                          <a href="#" className="dataTable-sorter">
-                            Name
-                          </a>
-                        </th>
-                        <th
-                          data-sortable=""
-                          style={{ width: "48.2558%", padding: "8px" }}
-                          onClick={() => sortData("position")}
-                        >
-                          <a href="#" className="dataTable-sorter">
-                            Position
-                          </a>
-                        </th>
-                        <th
-                          data-sortable=""
-                          style={{ width: "19.6221%", padding: "8px" }}
-                          onClick={() => sortData("salary")}
-                        >
-                          <a href="#" className="dataTable-sorter">
-                            Salary
-                          </a>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredData.map((row, index) => (
-                        <tr key={index}>
-                          <td>{row.name}</td>
-                          <td>{row.position}</td>
-                          <td>{row.salary}</td>
-                        </tr>
+    <div className="page-content-wrapper py-3 rk_table_2 rk_table">
+      <div className="container">
+        <div className="card">
+          <div className="card-body">
+            <div className="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+              <div className="dataTable-top d-flex justify-content-between">
+                <div className="dataTable-dropdown">
+                  <label>
+                    <select
+                      className="dataTable-selector"
+                      value={perPage}
+                      onChange={(e) => {
+                        setPerPage(Number(e.target.value));
+                        setCurrentPage(1); // reset to first page
+                      }}
+                    >
+                      {[10, 20, 30, 40, 50].map((num) => (
+                        <option key={num} value={num}>
+                          {num}
+                        </option>
                       ))}
-                    </tbody>
-                  </table>
+                    </select>
+                  </label>
                 </div>
-                <div className="dataTable-bottom">
-                  <div className="dataTable-info">1 to 10 entries</div>
-                  <div className="dataTable-pagination">
-                    <li className="pager">
-                      <a href="#" data-page="1">
-                        <i className="bi bi-arrow-left-short"></i>
-                      </a>
-                    </li>
-                    <li className="active">
-                      <a href="#" data-page="1">
-                        1
-                      </a>
-                    </li>
-                    <li className="">
-                      <a href="#" data-page="2">
-                        2
-                      </a>
-                    </li>
-                    <li className="">
-                      <a href="#" data-page="3">
-                        3
-                      </a>
-                    </li>
-                    <li className="">
-                      <a href="#" data-page="4">
-                        4
-                      </a>
-                    </li>
-                    <li className="">
-                      <a href="#" data-page="5">
-                        5
-                      </a>
-                    </li>
-                    <li className="pager">
-                      <a href="#" data-page="2">
-                        <i className="bi bi-arrow-right-short"></i>
-                      </a>
-                    </li>
-                  </div>
+              </div>
+              <div className="dataTable-container">
+                <table className="w-100 dataTable-table" id="dataTable">
+                  <thead>
+                    <tr>
+                      <th style={{ padding: "8px" }}>
+                        <a href="#" className="dataTable-sorter">
+                          Date Requested
+                        </a>
+                      </th>
+                      <th style={{ padding: "8px" }}>
+                        <a href="#" className="dataTable-sorter">
+                          Cert Holder
+                        </a>
+                      </th>
+                      <th style={{ padding: "8px" }}>
+                        <a href="#" className="dataTable-sorter">
+                          Notes
+                        </a>
+                      </th>
+                      <th style={{ padding: "8px" }}>
+                        <a href="#" className="dataTable-sorter">
+                          File
+                        </a>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedCertificates.map((cert, index) => (
+                      <tr key={index}>
+                        <td>{cert.requested_date}</td>
+                        <td>{cert.cert_holder}</td>
+                        <td>{cert.status}</td>
+                        <td>
+                          {cert.media && (
+                            <a
+                              href={cert.media.filepath}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={`Created: ${new Date(
+                                cert.media.created_at
+                              ).toLocaleString()}`}
+                              style={{
+                                textDecoration: "none",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px",
+                              }}
+                            >
+                              <i
+                                className="bi bi-file-earmark-pdf-fill"
+                                style={{ fontSize: "1.2rem", color: "red" }}
+                              ></i>
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="dataTable-bottom">
+                <div className="dataTable-info mb-2">
+                  Showing{" "}
+                  {Math.min(
+                    (currentPage - 1) * perPage + 1,
+                    allCertificates.length
+                  )}{" "}
+                  to {Math.min(currentPage * perPage, allCertificates.length)}{" "}
+                  of {allCertificates.length} entries
+                </div>
+                <div
+                  className="d-flex justify-content-center gap-2 align-items-center dataTable-pagination"
+                  style={{ listStyle: "none" }}
+                >
+                  <li className="pager">
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(currentPage - 1);
+                      }}
+                    >
+                      <i className="bi bi-arrow-left-short"></i>
+                    </a>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <li
+                        key={page}
+                        className={page === currentPage ? "active" : ""}
+                      >
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(page);
+                          }}
+                        >
+                          {page}
+                        </a>
+                      </li>
+                    )
+                  )}
+                  <li className="pager">
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(currentPage + 1);
+                      }}
+                    >
+                      <i className="bi bi-arrow-right-short"></i>
+                    </a>
+                  </li>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

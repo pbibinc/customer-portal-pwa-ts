@@ -15,7 +15,12 @@ const Login: React.FC = () => {
 
   // When token exists (and is valid via rehydration), navigate to home.
   useEffect(() => {
-    if (token) {
+    const isTokenValid = () => {
+      const state = useLoginStore.getState();
+      return state.token && state.expiry && state.expiry > Date.now();
+    };
+
+    if (isTokenValid()) {
       navigate("/home");
     }
   }, [token, navigate]);

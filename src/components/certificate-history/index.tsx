@@ -1,7 +1,11 @@
-import React from "react";
+import CertificateList from "./single-components/CertificateList";
 
 const CertificateHistoryIndex: React.FC = () => {
-  return <div>index</div>;
+  return (
+    <>
+      <CertificateList />
+    </>
+  );
 };
 
 export default CertificateHistoryIndex;

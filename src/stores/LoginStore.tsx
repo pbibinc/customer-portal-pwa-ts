@@ -17,7 +17,7 @@ export interface LoginStore {
   user: User | null;
   token: string | null;
   expiry: number | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
 }
 
@@ -28,10 +28,10 @@ export const useLoginStore: UseBoundStore<StoreApi<LoginStore>> =
         user: null,
         token: null,
         expiry: null,
-        setUser: (user: User) => set({ user }),
+        setUser: (user: User | null) => set({ user }),
         setToken: (token: string | null) => {
           if (token) {
-            const expiry = Date.now() + 2 * 60 * 60 * 1000; // 2 hours from now
+            const expiry = Date.now() + 2 * 60 * 60 * 1000;
             set({ token, expiry });
           } else {
             set({ token: null, expiry: null });
@@ -48,7 +48,6 @@ export const useLoginStore: UseBoundStore<StoreApi<LoginStore>> =
             if (state.token && state.expiry && state.expiry < current) {
               useLoginStore.getState().setToken(null);
               sessionStorage.removeItem("login-store");
-              window.location.replace("/login");
             }
           }
         },
