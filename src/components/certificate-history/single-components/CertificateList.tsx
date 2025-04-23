@@ -7,7 +7,6 @@ const CertificateList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
-  // Flatten all certificates from leads
   const allCertificates = useMemo(() => {
     return leads.flatMap(
       (lead) =>
@@ -31,6 +30,13 @@ const CertificateList: React.FC = () => {
     }
   };
 
+  const getEncodedMediaUrl = (filepath: string): string => {
+    const parts = filepath.split("/");
+    const basePath = parts.slice(0, -1).join("/");
+    const encodedFile = encodeURIComponent(parts.pop()!);
+    return `${basePath}/${encodedFile}`;
+  };
+
   return (
     <div className="page-content-wrapper py-3 rk_table_2 rk_table">
       <div className="container">
@@ -45,7 +51,7 @@ const CertificateList: React.FC = () => {
                       value={perPage}
                       onChange={(e) => {
                         setPerPage(Number(e.target.value));
-                        setCurrentPage(1); // reset to first page
+                        setCurrentPage(1);
                       }}
                     >
                       {[10, 20, 30, 40, 50].map((num) => (
@@ -57,6 +63,7 @@ const CertificateList: React.FC = () => {
                   </label>
                 </div>
               </div>
+
               <div className="dataTable-container">
                 <table className="w-100 dataTable-table" id="dataTable">
                   <thead>
@@ -92,7 +99,11 @@ const CertificateList: React.FC = () => {
                         <td>
                           {cert.media && (
                             <a
-                              href={cert.media.filepath}
+                              href={getEncodedMediaUrl(
+                                `${import.meta.env.VITE_BASE_URL}/${
+                                  cert.media.filepath
+                                }`
+                              )}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={`Created: ${new Date(
@@ -117,6 +128,7 @@ const CertificateList: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+
               <div className="dataTable-bottom">
                 <div className="dataTable-info mb-2">
                   Showing{" "}

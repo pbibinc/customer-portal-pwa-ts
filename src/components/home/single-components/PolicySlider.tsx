@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { EmbedPDF } from "@simplepdf/react-embed-pdf";
-
+// import { useState } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelectedCompanyStore } from "../../../stores/SelectedCompanyStore";
@@ -8,7 +6,17 @@ import { useSelectedCompanyStore } from "../../../stores/SelectedCompanyStore";
 const PolicySlider: React.FC = () => {
   const { selectedCompany } = useSelectedCompanyStore();
   const activePolicies = selectedCompany?.activePolicies ?? [];
-  const [currentFileUrl, setCurrentFileUrl] = useState<string | null>(null);
+
+  const openPolicyInNewTab = (fileUrl: string | null) => {
+    if (!fileUrl) return;
+
+    const urlParts = fileUrl.split("/");
+    const basePath = urlParts.slice(0, -1).join("/");
+    const encodedFileName = encodeURIComponent(urlParts.pop()!);
+    const finalUrl = `${basePath}/${encodedFileName}`;
+
+    window.open(finalUrl, "_blank");
+  };
 
   return (
     <div className="container">
@@ -49,9 +57,7 @@ const PolicySlider: React.FC = () => {
                       <button
                         className="btn btn-primary rounded-pill btn-sm mt-2"
                         type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#fullscreenModal"
-                        onClick={() => setCurrentFileUrl(policy?.file ?? null)}
+                        onClick={() => openPolicyInNewTab(policy.file ?? null)}
                       >
                         View Policy
                       </button>
@@ -61,48 +67,6 @@ const PolicySlider: React.FC = () => {
               })}
               <div className="tns-nav"></div>
             </Swiper>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="modal fade"
-        id="fullscreenModal"
-        tabIndex={-1}
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-fullscreen">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              {currentFileUrl ? (
-                <EmbedPDF
-                  companyIdentifier="react-viewer"
-                  mode="inline"
-                  style={{ width: "100%", height: "600px" }}
-                  documentURL={currentFileUrl}
-                />
-              ) : (
-                <p>No policy file available.</p>
-              )}
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
           </div>
         </div>
       </div>

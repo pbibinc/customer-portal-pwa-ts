@@ -163,27 +163,19 @@ const Header: React.FC = () => {
             </ul> */}
 
             <div className="social-info-wrap">
-              <a href="#">
+              <a href="https://www.facebook.com/pbibins" target="_blank">
                 <i className="bi bi-facebook"></i>
               </a>
-              <a href="#">
+              <a href="https://www.instagram.com/pbibins/" target="_blank">
                 <i className="bi bi-instagram"></i>
               </a>
-              {/* <a href="#">
-                <i className="bi bi-"></i>
-              </a> */}
             </div>
 
             <div className="copyright-info">
               <p>
                 <span id="copyrightYear"></span>
-                {new Date().getFullYear()} © Made by{" "}
-                <a
-                  target="_blank"
-                  href="https://themeforest.net/user/rk_theme/portfolio"
-                >
-                  rk theme
-                </a>
+                {new Date().getFullYear()} © Pascal Burke Insurance Brokerage
+                Inc. All rights reserved.
               </p>
             </div>
           </div>
