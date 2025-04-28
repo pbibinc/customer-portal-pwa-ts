@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDarkModeStore } from "../stores/DarkModeStore";
+// import { useDarkModeStore } from "../stores/DarkModeStore";
 import { useLoginStore } from "../stores/LoginStore";
 import { useLeadStore } from "../stores/LeadStore";
 import { useSelectedCompanyStore } from "../stores/SelectedCompanyStore";
@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   //   }
   // }, []);
 
-  const { theme, handleDarkModeToggle } = useDarkModeStore();
+  // const { theme, handleDarkModeToggle } = useDarkModeStore();
   const { user } = useLoginStore();
   const { leads } = useLeadStore();
   const { selectedCompany, setSelectedCompany } = useSelectedCompanyStore();

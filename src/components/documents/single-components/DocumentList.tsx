@@ -2,19 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import list_structure from "../single-components/list_structure";
 
-interface ListingProps {
-  category: string;
-  icon: string;
-  description: string;
-  items: Items[];
-}
+// interface ListingProps {
+//   category: string;
+//   icon: string;
+//   description: string;
+//   items: Items[];
+// }
 
-interface Items {
-  name: string;
-  href: string;
-}
-
-const DocumentList: React.FC<ListingProps> = () => {
+const DocumentList: React.FC = () => {
   // const [searchTerm, setSearchTerm] = useState("");
 
   // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,8 +44,8 @@ const DocumentList: React.FC<ListingProps> = () => {
         </div> */}
 
         {list_structure.map((item, index) => (
-          <React.Fragment key={index}>
-            <div className="affan-element-item">
+          <>
+            <div className="affan-element-item" key={index}>
               <div className="element-heading-wrapper">
                 <i className={item.icon}></i>
                 <div className="heading-text">
@@ -66,7 +61,7 @@ const DocumentList: React.FC<ListingProps> = () => {
                 <i className="bi bi-caret-right-fill fz-12"></i>
               </Link>
             ))}
-          </React.Fragment>
+          </>
         ))}
       </div>
       <div className="container">

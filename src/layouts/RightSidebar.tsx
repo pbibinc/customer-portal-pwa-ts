@@ -1,6 +1,6 @@
 import React from "react";
 
-const RightSidebar = () => {
+const RightSidebar: React.FC = () => {
   return <div>RightSidebar</div>;
 };
 
