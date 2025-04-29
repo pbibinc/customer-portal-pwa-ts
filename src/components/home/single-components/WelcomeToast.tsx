@@ -3,21 +3,32 @@ import { useLoginStore } from "../../../stores/LoginStore";
 
 const WelcomeToast: React.FC = () => {
   const { user } = useLoginStore();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
+    const hasShownToast = localStorage.getItem("hasShownWelcomeToast");
+
+    if (!hasShownToast) {
+      setShow(true);
+      localStorage.setItem("hasShownWelcomeToast", "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!show) return;
+
     const timer = setTimeout(() => {
       setShow(false);
-    }, 5000); // 5 seconds
+    }, 3000); // Hide after 3 seconds
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [show]);
+
+  if (!show) return null;
 
   return (
     <div
-      className={`toast toast-autohide custom-toast-1 toast-success home-page-toast ${
-        show ? "show" : "hide"
-      }`}
+      className={`toast toast-autohide custom-toast-1 toast-success home-page-toast show`}
       role="alert"
       aria-live="assertive"
       aria-atomic="true"

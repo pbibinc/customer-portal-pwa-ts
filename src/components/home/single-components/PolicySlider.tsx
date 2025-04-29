@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelectedCompanyStore } from "../../../stores/SelectedCompanyStore";
@@ -13,7 +12,11 @@ const PolicySlider: React.FC = () => {
     const urlParts = fileUrl.split("/");
     const basePath = urlParts.slice(0, -1).join("/");
     const encodedFileName = encodeURIComponent(urlParts.pop()!);
-    const finalUrl = `${basePath}/${encodedFileName}`;
+    const finalUrl = `${
+      import.meta.env.VITE_BASE_URL
+    }/${basePath}/${encodedFileName}`;
+
+    console.log(finalUrl);
 
     window.open(finalUrl, "_blank");
   };

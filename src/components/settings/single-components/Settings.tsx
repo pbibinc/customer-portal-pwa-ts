@@ -16,6 +16,7 @@ const Settings = () => {
 
     // Also clear sessionStorage just in case (redundancy for safety)
     sessionStorage.removeItem("login-store");
+    localStorage.removeItem("hasShownWelcomeToast");
 
     // Redirect to login
     navigate("/login", { replace: true });
