@@ -11,16 +11,16 @@ import DocumentIndex from "../components/documents/index";
 import CertFormIndex from "../components/certificate-form";
 import ErrorPage from "../components/error-page";
 import SettingsIndex from "../components/settings";
-import IframeWrapper from "../components/iframe-wrapper";
+// import IframeWrapper from "../components/iframe-wrapper";
 import CertificateListIndex from "../components/certificate-history/single-components/CertificateList";
 import CertificateHistoryIndex from "../components/certificate-history";
 import ChangePasswordIndex from "../components/change-password";
 
 const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <IframeWrapper />,
-  },
+  // {
+  //   path: "/",
+  //   element: <IframeWrapper />,
+  // },
   {
     element: <WithoutAuthPages />,
     children: [
