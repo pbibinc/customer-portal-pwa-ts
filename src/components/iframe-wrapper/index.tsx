@@ -4,10 +4,10 @@ import Footer from "./single-components/Footer";
 const IframeWrapper: React.FC = () => {
   return (
     <>
-      <div className="preview-iframe-wrapper">
-        <Preview />
-        <Footer />
-      </div>
+      {/* <div className="preview-iframe-wrapper"> */}
+      <Preview />
+      <Footer />
+      {/* </div> */}
     </>
   );
 };
