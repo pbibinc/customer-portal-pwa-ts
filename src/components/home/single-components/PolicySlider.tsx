@@ -51,12 +51,13 @@ const PolicySlider: React.FC = () => {
                   <SwiperSlide key={index} className="single-testimonial-slide">
                     <div className="text-content">
                       <h6 className="mb-2">{policy.policy_number}</h6>
-                      <p className="mb-4">
-                        {effDate} - {expDate}
-                      </p>
                       <span className="d-block" style={{ color: "#8480AE" }}>
                         {policy?.QuotationProduct?.product}
                       </span>
+                      <p className="mb-3">
+                        {effDate} - {expDate}
+                      </p>
+
                       <button
                         className="btn btn-primary rounded-pill btn-sm mt-2"
                         type="button"

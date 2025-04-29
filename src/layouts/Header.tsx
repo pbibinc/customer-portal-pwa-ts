@@ -74,9 +74,10 @@ const Header: React.FC = () => {
 
               <div className="user-info">
                 <h6 className="user-name mb-3">{user?.name}</h6>
-                <div className="d-flex justify-content-center align-items-center">
+                <div className="d-flex justify-content-center align-items-center p-3">
                   <select
-                    className="form-select form-select-sm w-50"
+                    className="form-select form-select-sm"
+                    style={{ textAlign: "center" }}
                     value={selectedCompany?.id ?? ""}
                     onChange={handleChange}
                   >
