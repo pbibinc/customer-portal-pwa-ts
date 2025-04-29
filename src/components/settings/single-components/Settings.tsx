@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { useDarkMode } from "../../../hooks/useDarkMode";
+import { useDarkModeStore } from "../../../stores/DarkModeStore";
 import { useLoginStore } from "../../../stores/LoginStore";
 import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
-  const { theme, handleDarkModeToggle } = useDarkMode();
+  const { theme, handleDarkModeToggle } = useDarkModeStore();
   const setUser = useLoginStore((state) => state.setUser);
   const setToken = useLoginStore((state) => state.setToken);
   const navigate = useNavigate();

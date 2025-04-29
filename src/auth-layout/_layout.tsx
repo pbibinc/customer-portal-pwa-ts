@@ -8,7 +8,7 @@ const AuthLayout: React.FC = () => {
         <div className="text-center px-4">
           <img
             className="login-intro-img"
-            src="/assets/img/bg-img/36.png"
+            src="/assets/img/bg-img/auth.png"
             alt=""
           />
         </div>

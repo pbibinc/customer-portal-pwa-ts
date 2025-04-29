@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import WithAuthPages from "./WithAuthPages";
 import WithoutAuthPages from "./WithoutAuthPages";
@@ -24,6 +24,10 @@ const routes = createBrowserRouter([
   {
     element: <WithoutAuthPages />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="/login" replace />,
+      },
       {
         path: "/login",
         element: <LoginIndex />,

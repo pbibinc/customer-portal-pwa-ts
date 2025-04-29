@@ -1,10 +1,11 @@
 // import { useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { useDarkModeStore } from "../stores/DarkModeStore";
 import { useLoginStore } from "../stores/LoginStore";
 import { useLeadStore } from "../stores/LeadStore";
 import { useSelectedCompanyStore } from "../stores/SelectedCompanyStore";
-import Logo from "@assets/img/logopbibinc.png";
+import LogoLight from "@assets/img/logo_light.jpg";
+import LogoDark from "@assets/img/logo_dark.png";
+import { useDarkModeStore } from "../stores/DarkModeStore";
 
 const Header: React.FC = () => {
   // useEffect(() => {
@@ -13,10 +14,23 @@ const Header: React.FC = () => {
   //   }
   // }, []);
 
-  // const { theme, handleDarkModeToggle } = useDarkModeStore();
+  const { theme } = useDarkModeStore();
   const { user } = useLoginStore();
   const { leads } = useLeadStore();
   const { selectedCompany, setSelectedCompany } = useSelectedCompanyStore();
+
+  // const { theme, mounted } = useDarkModeStore((state) => ({
+  //   theme: state.theme,
+  //   mounted: state.mounted,
+  // }));
+
+  // useEffect(() => {
+  //   useDarkModeStore.getState().init(); // 👈 only once, safe!
+  // }, []);
+
+  // if (!mounted) {
+  //   return null;
+  // }
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newId = Number(e.target.value);
@@ -31,7 +45,7 @@ const Header: React.FC = () => {
           <div className="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
             <div className="logo-wrapper">
               <Link to="/home">
-                <img src={Logo} alt="" />
+                <img src={theme === "dark" ? LogoDark : LogoLight} alt="Logo" />
               </Link>
             </div>
             <div
@@ -91,77 +105,6 @@ const Header: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* <ul className="sidenav-nav ps-0">
-              <li>
-                <Link to="/home">
-                  <i className="bi bi-house-door"></i> Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/elements">
-                  <i className="bi bi-folder2-open"></i> Elements
-                  <span className="badge bg-danger rounded-pill ms-2">
-                    220+
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/pages">
-                  <i className="bi bi-collection"></i> Pages
-                  <span className="badge bg-success rounded-pill ms-2">
-                    100+
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="bi bi-cart-check"></i> Shop
-                </a>
-                <ul>
-                  <li>
-                    <Link to="/shop-grid"> Shop Grid</Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-list"> Shop List</Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-details"> Shop Details</Link>
-                  </li>
-                  <li>
-                    <Link to="/cart"> Cart</Link>
-                  </li>
-                  <li>
-                    <Link to="/checkout"> Checkout</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link to="/settings">
-                  <i className="bi bi-gear"></i> Settings
-                </Link>
-              </li>
-              <li>
-                <div className="night-mode-nav">
-                  <i className="bi bi-moon"></i>
-                  {theme === "dark" ? "Light" : "Dark"} Mode
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input form-check-success"
-                      id="darkSwitch"
-                      type="checkbox"
-                      checked={theme === "dark"}
-                      onChange={handleDarkModeToggle}
-                    />
-                  </div>
-                </div>
-              </li>
-              <li>
-                <Link to="/login">
-                  <i className="bi bi-box-arrow-right"></i> Logout
-                </Link>
-              </li>
-            </ul> */}
 
             <div className="social-info-wrap">
               <a href="https://www.facebook.com/pbibins" target="_blank">
