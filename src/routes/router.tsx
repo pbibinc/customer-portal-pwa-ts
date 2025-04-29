@@ -18,7 +18,7 @@ import ChangePasswordIndex from "../components/change-password";
 
 const routes = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <IframeWrapper />,
   },
   {
