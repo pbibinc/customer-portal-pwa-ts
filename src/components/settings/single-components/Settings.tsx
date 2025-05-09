@@ -2,23 +2,27 @@ import { Link } from "react-router-dom";
 import { useDarkModeStore } from "../../../stores/DarkModeStore";
 import { useLoginStore } from "../../../stores/LoginStore";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Settings = () => {
-  const { theme, handleDarkModeToggle } = useDarkModeStore();
-  const setUser = useLoginStore((state) => state.setUser);
-  const setToken = useLoginStore((state) => state.setToken);
   const navigate = useNavigate();
 
+  const { theme, mounted, init, handleDarkModeToggle } = useDarkModeStore();
+
+  const setUser = useLoginStore((state) => state.setUser);
+  const setToken = useLoginStore((state) => state.setToken);
+
+  useEffect(() => {
+    if (!mounted) {
+      init();
+    }
+  }, [mounted, init]);
+
   const handleLogout = () => {
-    // Clear Zustand state
     setUser(null);
     setToken(null);
-
-    // Also clear sessionStorage just in case (redundancy for safety)
     sessionStorage.removeItem("login-store");
     localStorage.removeItem("hasShownWelcomeToast");
-
-    // Redirect to login
     navigate("/login", { replace: true });
   };
 

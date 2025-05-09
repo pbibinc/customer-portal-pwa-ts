@@ -10,13 +10,20 @@ interface DarkModeStore {
 }
 
 export const useDarkModeStore = create<DarkModeStore>((set, get) => ({
-  theme: "light", // default theme
+  theme: "light",
   mounted: false,
-  setTheme: (theme: string) => set({ theme }),
-  toggleTheme: () =>
-    set((state) => ({
-      theme: state.theme === "dark" ? "light" : "dark",
-    })),
+  setTheme: (theme: string) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    set({ theme });
+  },
+  toggleTheme: () => {
+    const currentTheme = get().theme;
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    set({ theme: newTheme });
+  },
   handleDarkModeToggle: () => {
     if (typeof window !== "undefined") {
       const dmContainer = document.querySelector(
@@ -49,14 +56,3 @@ export const useDarkModeStore = create<DarkModeStore>((set, get) => ({
     }
   },
 }));
-
-// Subscribe to theme changes to update the document attribute and localStorage,
-// but only if the store has been initialized (mounted).
-if (typeof window !== "undefined") {
-  useDarkModeStore.subscribe((state) => {
-    if (state.mounted) {
-      document.documentElement.setAttribute("data-theme", state.theme);
-      localStorage.setItem("theme", state.theme);
-    }
-  });
-}
