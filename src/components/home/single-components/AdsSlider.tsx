@@ -64,7 +64,8 @@ const AdsSlider: React.FC = () => {
                   </h3>
                   <a
                     className="btn btn-creative btn-warning"
-                    href="https://www.pbibinc.com"
+                    href="https://pbibinc.com"
+                    target="_blank"
                   >
                     Click Here
                   </a>
@@ -87,7 +88,8 @@ const AdsSlider: React.FC = () => {
                   </h3>
                   <a
                     className="btn btn-creative btn-warning"
-                    href={`https://quote.pbibinc.com?utm_source=customer_portal&utm_medium=app&utm_campaign=banner`}
+                    target="_blank"
+                    href="https://quote.pbibinc.com?utm_source=customer_portal&utm_medium=app&utm_campaign=banner"
                   >
                     Click Here
                   </a>
@@ -110,7 +112,8 @@ const AdsSlider: React.FC = () => {
                   </h3>
                   <a
                     className="btn btn-creative btn-warning"
-                    href={`https://quote.pbibinc.com?utm_source=customer_portal&utm_medium=app&utm_campaign=banner`}
+                    target="_blank"
+                    href="https://quote.pbibinc.com?utm_source=customer_portal&utm_medium=app&utm_campaign=banner"
                   >
                     Click Here
                   </a>
